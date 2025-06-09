@@ -16,7 +16,7 @@ COPY src ./src
 RUN mvn clean package
 
 # Stage 2: Prepare the Tomcat runtime environment
-FROM tomcat:9.0-jdk11
+FROM tomcat:10.1-jdk17-temurin
 
 # Set environment variables
 ENV APP_HOME=/usr/local/tomcat/webapps

@@ -30,7 +30,7 @@ RUN useradd -m appuser
 USER appuser
 
 # Copy the WAR file from the build stage to the Tomcat webapps directory
-COPY --from=build /usr/src/app/target/${APP_NAME}.war $APP_HOME/${APP_NAME}.war
+COPY --from=build /usr/src/app/target/${APP_NAME}*.war $APP_HOME/${APP_NAME}.war
 
 # Expose the port that Tomcat runs on
 EXPOSE 8080

@@ -5,6 +5,7 @@ pipeline {
     }
     environment {
         DOCKERHUB_REPO = 'liki27/java-webapp-docker'
+	DOCKERHUB_CREDENTIALS_ID = 'dockerhub_credentials'
     }
     stages { 
         stage('Checkout') {
@@ -28,6 +29,17 @@ pipeline {
                 script {
                     def imageName = "${env.DOCKERHUB_REPO}:${env.BUILD_NUMBER}"
                     sh "docker build -t ${imageName} ."
+                }
+            }
+        }
+	    stage("Docker login and push"){
+            steps {
+                withCredentials([usernamePassword(credentialsId: env.DOCKERHUB_CREDENTIALS_ID, passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]){
+                    script {
+                        sh "echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin"
+                        def imageName = "${env.DOCKERHUB_REPO}:${env.BUILD_NUMBER}"
+                        sh "docker push ${imageName}"
+                    }
                 }
             }
         }

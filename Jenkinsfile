@@ -1,7 +1,10 @@
 pipeline {
     agent any
+    tools{
+        maven 'maven'
+    }
     stages { 
-        stage('') {
+        stage('Checkout') {
             steps {
                 checkout scmGit(
 			branches: [[name: '*/master']], 
@@ -11,7 +14,26 @@ pipeline {
 			]]
 		)
             }
+	 stage("Test_Parallel"){
+            parallel{
+                stage("complile"){
+                    steps{
+                        sh 'mvn clean compile'
+                    }
+                }
+
+                stage("junit_testS"){
+                    steps{
+                        sh 'mvn clean test'
+                    }
+                }
+            }
         }
+       	stage("Build War"){
+            steps{
+                sh 'mvn clean package'
+            }
+       	 }	
+	}
     }
 }
-

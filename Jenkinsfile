@@ -3,6 +3,9 @@ pipeline {
     tools{
         maven 'maven'
     }
+    environment {
+        DOCKERHUB_REPO = 'liki27/java-webapp-docker'
+    }
     stages { 
         stage('Checkout') {
             steps {
@@ -19,6 +22,14 @@ pipeline {
 	    	steps {
 			sh 'mvn clean package'
 		}
-    }
+	    }	
+	    stage("Build Docker_Images"){
+            steps{
+                script {
+                    def imageName = "${env.DOCKERHUB_REPO}:${env.BUILD_NUMBER}"
+                    sh "docker build -t ${imageName} ."
+                }
+            }
+        }
 }
 }

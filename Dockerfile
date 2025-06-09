@@ -1,5 +1,5 @@
 # Stage 1: Build the Maven application
-FROM maven:3.8.1-jdk-17 AS build
+FROM maven:3.8.6-eclipse-temurin-17 AS build
 
 # Add labels for metadata
 LABEL maintainer="your-email@example.com"

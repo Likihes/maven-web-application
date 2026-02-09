@@ -15,5 +15,12 @@ pipeline {
                 }
             }
         }
+        stage('Build') {
+            steps {
+                script {
+                    echo "Building the project..."
+                }
+            }
+        }
     }
 }

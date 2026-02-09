@@ -1,29 +1,19 @@
-@Library('my_library') _
+@Library('my_library@main') _
+
 pipeline {
     agent any
-    
+
     stages {
         stage('Checkout') {
             steps {
-                pipeline {
-                    agent any
-                    
-                    stages {
-                        stage('Checkout') {
-                            steps {
-                                script {
-                                    def config = [
-                                        branch: 'master',
-                                        url: 'https://github.com/Likihes/maven-web-application.git',
-                                        credentialsId: 'PATGH'
-                                    ]
-                                    gitCheckout(config)
-                                }
-                            }
-                        }
-                    }
+                script {
+                    gitCheckout(
+                        branch: 'master',
+                        url: 'https://github.com/Likihes/maven-web-application.git',
+                        credentialsId: 'PATGH'
+                    )
                 }
             }
         }
-    }   
-}               
+    }
+}
